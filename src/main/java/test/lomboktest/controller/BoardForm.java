@@ -1,10 +1,9 @@
 package test.lomboktest.controller;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import test.lomboktest.domain.enums.BoardType;
 
-@Getter @Setter
+@Data
 public class BoardForm {
     private Long idx;
 

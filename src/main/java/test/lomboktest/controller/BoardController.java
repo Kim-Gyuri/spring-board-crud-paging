@@ -25,7 +25,7 @@ public class BoardController {
     @GetMapping("/add")
     public String board(@RequestParam(value="idx", defaultValue = "0") Long idx,
                         Model model) {
-        model.addAttribute("board", boardService.findBoardByIdx(idx));
+        model.addAttribute("board", new BoardForm());
         return "/board/createForm";
     }
 
@@ -46,8 +46,8 @@ public class BoardController {
         return "redirect:/board/{postId}";
     }
 
-    @GetMapping("/{postId}")
-    public String posts(@PathVariable Long id,Model model) {
+    @GetMapping("/{idx}")
+    public String posts(@PathVariable("idx") Long id, Model model) {
         Board board = boardService.findBoardByIdx(id);
         model.addAttribute("board", board);
         return "board/post";
@@ -63,28 +63,32 @@ public class BoardController {
         return "/board/list";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable("postId") Long id, Model model) {
-        Board board = boardService.findBoardByIdx(id);
-        BoardForm form = new BoardForm();
-        form.setIdx(board.getIdx());
-        form.setSubTitle(board.getSubTitle());
-        form.setContent(board.getContent());
-        form.setBoardType(board.getBoardType());
+    @GetMapping("/{idx}/edit")
+    public String editForm(@PathVariable("idx") Long id, Model model) {
+        Board post = boardService.findOne(id);
+
+        BoardForm board = new BoardForm();
+        board.setIdx(post.getIdx());
+        board.setTitle(post.getTitle());
+        board.setSubTitle(post.getSubTitle());
+        board.setContent(post.getContent());
+        board.setBoardType(post.getBoardType());
         model.addAttribute("board", board);
-        return "editForm";
+        return "board/editForm";
     }
 
-    @PostMapping("/{id}/edit")
-    public String editUpdate(@PathVariable("postId") Long id, @ModelAttribute("form") BoardForm form) {
-        boardService.updatePost(id, form.getTitle(), form.getSubTitle(),form.getContent(), form.getBoardType());
-        return "redirect:/board";
+    @PostMapping("/{idx}/edit")
+    public String editUpdate(@PathVariable("idx") Long idx, @ModelAttribute("board") BoardForm form, RedirectAttributes redirectAttributes) throws IOException {
+        boardService.updatePost(idx, form.getTitle(), form.getSubTitle(),form.getContent(), form.getBoardType());
+
+        redirectAttributes.addAttribute("idx",form.getIdx());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/board/{idx}";
     }
 
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        Board board = boardService.findBoardByIdx(id);
-        boardService.delete(board);
+    @DeleteMapping("/{postId}/delete")
+    public String delete(Long id) {
+        boardService.delete(id);
         return "redirect:/board";
     }
 

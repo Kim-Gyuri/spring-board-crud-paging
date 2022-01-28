@@ -24,8 +24,7 @@
                 <option value="">==게시판 분류 선택==</option>
                 <option th:each="boardTypeValue : ${T(test.lomboktest.domain.enums.BoardType).values()}"
                         th:value="${boardTypeValue.name()}"
-                        th:text="${boardTypeValue.name()}">
-                    val
+                        th:text="${boardTypeValue.name()}">val
                 </option>
             </select>
         </div>
