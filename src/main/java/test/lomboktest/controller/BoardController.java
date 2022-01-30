@@ -1,6 +1,7 @@
 package test.lomboktest.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +14,8 @@ import test.lomboktest.domain.Board;
 import test.lomboktest.service.BoardService;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
+@Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -25,31 +26,24 @@ public class BoardController {
     @GetMapping("/add")
     public String board(@RequestParam(value="idx", defaultValue = "0") Long idx,
                         Model model) {
-        model.addAttribute("board", new BoardForm());
+        model.addAttribute("board", new Board());
         return "/board/createForm";
     }
 
     @PostMapping("/add")
-    public String post(@ModelAttribute BoardForm form, RedirectAttributes redirectAttributes) throws IOException {
-        Board board = Board.builder()
-                .title(form.getTitle())
-                .subTitle(form.getSubTitle())
-                .content(form.getContent())
-                .boardType(form.getBoardType())
-                .createdDate(LocalDateTime.now())
-                .build();
-        boardService.save(board);
+    public String post(@ModelAttribute("board") BoardForm boardform, RedirectAttributes redirectAttributes) throws IOException {
+        Long idx = boardService.save(boardform);
 
-        redirectAttributes.addAttribute("postId", board.getIdx());
+        redirectAttributes.addAttribute("idx", idx);
         redirectAttributes.addAttribute("status", true);
 
-        return "redirect:/board/{postId}";
+        return "redirect:/board/{idx}";
     }
 
     @GetMapping("/{idx}")
-    public String posts(@PathVariable("idx") Long id, Model model) {
-        Board board = boardService.findBoardByIdx(id);
-        model.addAttribute("board", board);
+    public String posts(@PathVariable("idx") Long idx, Model model) {
+        Board board = boardService.findBoardByIdx(idx);
+        model.addAttribute("boardForm", board);
         return "board/post";
 
     }
@@ -64,32 +58,32 @@ public class BoardController {
     }
 
     @GetMapping("/{idx}/edit")
-    public String editForm(@PathVariable("idx") Long id, Model model) {
-        Board post = boardService.findOne(id);
-
-        BoardForm board = new BoardForm();
-        board.setIdx(post.getIdx());
-        board.setTitle(post.getTitle());
-        board.setSubTitle(post.getSubTitle());
-        board.setContent(post.getContent());
-        board.setBoardType(post.getBoardType());
-        model.addAttribute("board", board);
+    public String editForm(@PathVariable("idx") Long idx, Model model) {
+        Board boardForm = boardService.findBoardByIdx(idx);
+        model.addAttribute("boardForm", boardForm);
+        log.info("선택한 게시판 id={}", idx);
         return "board/editForm";
     }
 
     @PostMapping("/{idx}/edit")
-    public String editUpdate(@PathVariable("idx") Long idx, @ModelAttribute("board") BoardForm form, RedirectAttributes redirectAttributes) throws IOException {
-        boardService.updatePost(idx, form.getTitle(), form.getSubTitle(),form.getContent(), form.getBoardType());
+    public String editUpdate(@PathVariable("idx") Long idx, @ModelAttribute UpdateForm updateForm, RedirectAttributes redirectAttributes) {
+        Long update = boardService.update(idx, updateForm);
+        Board updateBoard = boardService.findBoardByIdx(update);
 
-        redirectAttributes.addAttribute("idx",form.getIdx());
+        log.info("업데이트한 게시판 id={}", updateBoard.getIdx());
+        log.info("수정한 내용={}", updateBoard.getContent());
+
+        redirectAttributes.addAttribute("idx", updateBoard.getIdx());
         redirectAttributes.addAttribute("status", true);
+
+
         return "redirect:/board/{idx}";
     }
 
-    @DeleteMapping("/{postId}/delete")
-    public String delete(Long id) {
-        boardService.delete(id);
-        return "redirect:/board";
+    @GetMapping("/{idx}/delete")
+    public String delete(@PathVariable Long idx) {
+        boardService.delete(idx);
+        return "redirect:/board/list";
     }
 
 

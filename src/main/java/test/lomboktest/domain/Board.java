@@ -1,6 +1,6 @@
 package test.lomboktest.domain;
 
-import lombok.AllArgsConstructor;
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +11,10 @@ import java.time.LocalDateTime;
 
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
-@Builder
-public class Board {
+@Table(name="board")
+public class Board extends TimeEntity{
 
     @Id
     @Column
@@ -30,11 +28,15 @@ public class Board {
     private String subTitle;
 
     @Column
+    @NotNull
     private String content;
 
     @Column
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @Column
     private LocalDateTime createdDate;
@@ -42,7 +44,19 @@ public class Board {
     @Column
     private LocalDateTime updatedDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private User user;
+    @Builder
+    public Board(Long idx, String title, String subTitle, String content, BoardType boardType) {
+        this.idx = idx;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.content = content;
+        this.boardType = boardType;
+    }
+
+    public void update(String title, String subTitle, String content) {
+        this.title = title;
+        this.subTitle = subTitle;
+        this.content = content;
+    }
 
 }

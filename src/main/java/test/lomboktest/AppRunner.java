@@ -37,9 +37,10 @@ public class AppRunner implements ApplicationRunner {
                         .subTitle("Order " + index)
                         .content("Content Example " + index)
                         .boardType(BoardType.free)
-                        .createdDate(LocalDateTime.now())
-                        .updatedDate(LocalDateTime.now())
-                        .user(user).build()));
+//                        .createdDate(LocalDateTime.now())
+  //                      .updatedDate(LocalDateTime.now())
+    //                    .user(user).build()));
+                .build()));
     }
 
 }

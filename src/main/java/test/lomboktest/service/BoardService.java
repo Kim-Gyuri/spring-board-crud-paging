@@ -1,16 +1,20 @@
 package test.lomboktest.service;
 
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import test.lomboktest.controller.BoardForm;
+import test.lomboktest.controller.UpdateForm;
 import test.lomboktest.domain.Board;
-import test.lomboktest.domain.enums.BoardType;
 import test.lomboktest.repository.BoardRepository;
 
+@AllArgsConstructor
 @Service
 @Slf4j
 public class BoardService {
@@ -18,31 +22,38 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public Board save(Board board) {
-        return boardRepository.save(board);
+    @Transactional
+    public Long save(BoardForm boardForm) {
+        return boardRepository.save(boardForm.toEntity()).getIdx();
     }
 
-    public Board findOne(Long id) {
-        return boardRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
-    }
-
-    public void delete(Long id) {
-        Board board = findOne(id);
+    @Transactional
+    public void delete(Long idx) {
+        Board board = boardRepository.findById(idx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + idx));
         boardRepository.delete(board);
     }
 
-    public void updatePost(Long idx, String title, String subTitle, String content, BoardType boardType) {
-
-        Board builder = findOne(idx).builder()
-                .title(title)
-                .subTitle(subTitle)
-                .content(content)
-                .boardType(boardType)
-                .build();
-        log.info("Board.getContent={}" , builder.getContent());
+    @Transactional
+    public Long update(Long idx, UpdateForm updateForm) {
+        Board board = boardRepository.findById(idx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 업습니다. id= " + idx));
+        board.update(updateForm.getTitle(), updateForm.getSubTitle(), updateForm.getContent());
+        return idx;
     }
+/*
+    public void updatePost(Long idx, UpdateForm board) {
 
+        Board b = findBoardByIdx(idx).builder()
+                .title(board.getTitle())
+                .subTitle(board.getSubTitle())
+                .content(board.getContent())
+                .boardType(board.getBoardType())
+                .build();
+        Board save = save(b);
+        log.info("Board.getContent={}" , save.getContent());
+    }
+*/
     public Page<Board> findBoardList(Pageable pageable) {
         pageable = PageRequest.of(
                 pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber()-1,
