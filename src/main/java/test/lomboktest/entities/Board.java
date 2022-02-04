@@ -25,9 +25,6 @@ public class Board extends TimeEntity{
     private String title;
 
     @Column
-    private String subTitle;
-
-    @Column
     @NotNull
     private String content;
 
@@ -39,24 +36,21 @@ public class Board extends TimeEntity{
     private User user;
 
     @Column
-    private LocalDateTime createdDate;
-
-    @Column
     private LocalDateTime updatedDate;
 
-    @Builder
-    public Board(Long idx, String title, String subTitle, String content, BoardType boardType) {
-        this.idx = idx;
+    public Board() {}
+
+    @Builder(builderMethodName = "boardBuilder")
+    public Board(String title, String content, BoardType boardType, LocalDateTime updatedDate) {
         this.title = title;
-        this.subTitle = subTitle;
         this.content = content;
         this.boardType = boardType;
+        this.updatedDate = updatedDate;
     }
 
-    public void update(String title, String subTitle, String content) {
+    public void update(String title, String content, LocalDateTime updatedDate) {
         this.title = title;
-        this.subTitle = subTitle;
         this.content = content;
+        this.updatedDate = updatedDate;
     }
-
 }

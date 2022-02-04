@@ -4,30 +4,30 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form th:action="@{|/board/${boardForm.idx}/edit|}"  method="post">
+    <form th:action="@{|/board/${board.idx}/edit|}" th:object="${board}" method="post">
         <div class="form-group">
             <label th:text="ID"></label>
-            <input type="text" th:value="${boardForm.idx}" class="form-control" readonly>
+            <input type="text" th:value="*{idx}" class="form-control" readonly>
         </div>
 
         <div class="form-group">
             <label th:text="제목"></label>
-            <input type="text" th:value="${boardForm.title}" class="form-control">
+            <input type="text" th:value="*{title}" class="form-control">
         </div>
         <div class="form-group">
             <label th:text="부제목"></label>
-            <input type="text" th:value="${boardForm.subTitle}" class="form-control">
+            <input type="text" th:value="*{subTitle}" class="form-control">
         </div>
         <div class="form-group">
             <label th:text="내용"></label>
-            <input type="text" th:value="${boardForm.content}" class="form-control">
+            <input type="text" th:value="*{content}" class="form-control">
         </div>
 
         <div class="form-group">
             <label th:text="게시판분류"></label>
-            <select class="form-control" th:field="*{boardForm.boardType}" disabled>
+            <select class="form-control" th:field="*{boardType}" disabled>
                 <option value="">==게시판 분류 선택==</option>
-                <option th:each="boardTypeValue : ${T(test.lomboktest.domain.enums.BoardType).values()}"
+                <option th:each="boardTypeValue : ${T(test.lomboktest.entities.enums.BoardType).values()}"
                         th:value="${boardTypeValue.name()}"
                         th:text="${boardTypeValue.name()}">val
                 </option>
@@ -40,7 +40,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='post.html'"
-                        th:onclick="|location.href='@{/board/{idx}(idx=${boardForm.idx})}'|"
+                        th:onclick="|location.href='@{/board/{idx}(idx=${board.idx})}'|"
                         type="button">취소</button>
             </div>
         </div>
