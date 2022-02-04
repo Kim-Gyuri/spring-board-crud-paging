@@ -1,4 +1,4 @@
-package test.lomboktest.domain.enums;
+package test.lomboktest.entities.enums;
 
 public enum BoardType {
     notice("공지사항"),

@@ -1,25 +1,23 @@
-package test.lomboktest.domain;
+package test.lomboktest.entities;
 
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import test.lomboktest.domain.enums.BoardType;
+import test.lomboktest.entities.enums.BoardType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
 @Getter
-@NoArgsConstructor
 @Entity
 @Table(name="board")
-public class Board extends TimeEntity{
+public class Board extends TimeEntity {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long idx;
+    public Long id;
 
     @Column
     private String title;
@@ -38,7 +36,8 @@ public class Board extends TimeEntity{
     @Column
     private LocalDateTime updatedDate;
 
-    public Board() {}
+    public Board() {
+    }
 
     @Builder(builderMethodName = "boardBuilder")
     public Board(String title, String content, BoardType boardType, LocalDateTime updatedDate) {
@@ -52,5 +51,19 @@ public class Board extends TimeEntity{
         this.title = title;
         this.content = content;
         this.updatedDate = updatedDate;
+    }
+
+    public Board toEntity() {
+        return Board.boardBuilder()
+                .title(title)
+                .content(content)
+                .boardType(boardType)
+                .updatedDate(updatedDate)
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" + "id=" + id + ", title=" + title + ", content=" + content + ", boardType=" + boardType + '}';
     }
 }

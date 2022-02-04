@@ -1,40 +1,38 @@
 package test.lomboktest.controller;
 
 import lombok.*;
-import test.lomboktest.domain.Board;
-import test.lomboktest.domain.enums.BoardType;
+import test.lomboktest.entities.Board;
+import test.lomboktest.entities.enums.BoardType;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class BoardForm {
-    private Long idx;
-
+    private Long id;
     private String title;
-
-    private String subTitle;
-
     private String content;
-
     private BoardType boardType;
+    private LocalDateTime updatedDate;
 
     public Board toEntity() {
-        Board board = Board.builder()
+        Board board = Board.boardBuilder()
                 .title(title)
-                .subTitle(subTitle)
                 .content(content)
                 .boardType(boardType)
+                .updatedDate(LocalDateTime.now())
                 .build();
         return board;
     }
 
     @Builder
-    public BoardForm(Long idx, String title, String subTitle, String content, BoardType boardType) {
-        this.idx = idx;
+    public BoardForm(Long id, String title, String content, BoardType boardType, LocalDateTime updatedDate) {
+        this.id = id;
         this.title = title;
-        this.subTitle = subTitle;
         this.content = content;
         this.boardType = boardType;
+        this.updatedDate = updatedDate;
     }
 }

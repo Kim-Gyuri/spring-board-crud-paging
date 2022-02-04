@@ -1,12 +1,8 @@
 package test.lomboktest.service;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import test.lomboktest.domain.Board;
-import test.lomboktest.domain.enums.BoardType;
 
 @SpringBootTest
 @Rollback(value = false)
@@ -14,30 +10,34 @@ class BoardServiceTest {
 
     @Autowired
     BoardService boardService;
+/*
+    @Autowired
+    Board board;
 
     @Test
     public void 게시글수정() {
-        Board board = Board.builder()
-                .idx(1L)
+        BoardForm Board = BoardForm.builder()
+                .id(1L)
                 .title("getTitle")
-                .subTitle("sub")
-                .content("jojoy")
+                .content("jojo")
                 .boardType(BoardType.free)
+                .updatedDate(LocalDateTime.now())
                 .build();
-        Board save = boardService.save(board);
+        Long saveId = boardService.save(Board);
 
-
-        Board newBoard = Board.builder()
-                .title("new")
-                .subTitle("new")
+        BoardForm newBoard = BoardForm.builder()
+                .id(1L)
+                .title("newTitle")
                 .content("enjoy")
                 .boardType(BoardType.free)
+                .updatedDate(LocalDateTime.now())
                 .build();
 
-        boardService.updatePost(1L, newBoard);
+        boardService.update(saveId,newBoard);
+
         Assertions.assertThat(
-                boardService.findBoardByIdx(1L).getContent()).isEqualTo(newBoard.getContent());
+                boardService.findBoardById(1L).getContent()).isEqualTo("enjoy");
 
     }
-
+*/
 }
