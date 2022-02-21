@@ -26,4 +26,12 @@
 - https://github.com/eugenp/tutorials/blob/master/spring-boot-modules/spring-boot-crud/src/main/java/com/baeldung/crud/controllers/UserController.java   -->스프링 부트 튜토리얼 살펴보기 딱 좋다.
 - https://www.baeldung.com/intro-to-project-lombok     --->롬복 공부, 공식문서
 
-4) 기타
+5) 기타
+- 다음에 만들고자 하는 프로젝트
+  - 연관관계가 잘 보이도록
+  -  SQL 연동
+  -  security를 적용했는데 session을 적용해야 하나?
+  -  공격자가 API를 변조하여 공격이 가능한지?
+  -  디자인, TDD, 개발 스타일, 브랜치 전략, 이슈 관리, 배포 방식 등 시행착오?
+  -  https://github.com/roadbook2/shop 쇼핑몰 만들기?
+  -  aws
