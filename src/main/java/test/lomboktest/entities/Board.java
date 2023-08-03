@@ -1,6 +1,5 @@
 package test.lomboktest.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import test.lomboktest.entities.enums.BoardType;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 public class Board extends TimeEntity {
 
     @Id
-    @Column
+    @Column(name ="BOARD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
@@ -23,7 +22,6 @@ public class Board extends TimeEntity {
     private String title;
 
     @Column
-    @NotNull
     private String content;
 
     @Column

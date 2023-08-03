@@ -6,4 +6,5 @@ import test.lomboktest.entities.Board;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
+
 }

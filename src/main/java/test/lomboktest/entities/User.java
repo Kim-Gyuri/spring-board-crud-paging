@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 public class User implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long idx;
+    public Long id;
 
     @Column
     public String name;
