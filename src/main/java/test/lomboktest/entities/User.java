@@ -1,25 +1,21 @@
 package test.lomboktest.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table
-@Builder
+@Table(name = "users")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User implements Serializable {
 
     @Id
-    @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    @GeneratedValue
     public Long id;
 
     @Column
@@ -31,10 +27,5 @@ public class User implements Serializable {
     @Column
     public String email;
 
-    @Column
-    public LocalDateTime createdDate;
-
-    @Column
-    public LocalDateTime updatedDate;
 
 }

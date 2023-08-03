@@ -30,18 +30,18 @@
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg"
                         onclick="location.href='update-post.html'"
-                        th:onclick="|location.href='@{/edit/{id} (id=${board.id})}'|"
+                        th:onclick="|location.href='@{/board/edit/{id} (id=${board.id})}'|"
                         type="button">글 수정</button>
             </div>
             <div class="col">
                 <a class="w-100 btn btn-primary btn-lg"
-                   th:href="@{/delete/{id} (id=${board.id})}"
+                   th:href="@{/board/delete/{id} (id=${board.id})}"
                    type="button">글 삭제</a>
             </div>
 
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/index}'|"
+                        th:onclick="|location.href='@{/board/home}'|"
                         type="button">뒤로 가기
                 </button>
             </div>

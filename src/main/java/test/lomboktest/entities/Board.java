@@ -1,7 +1,9 @@
 package test.lomboktest.entities;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import test.lomboktest.entities.enums.BoardType;
 
 import javax.persistence.*;
@@ -11,11 +13,12 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name="board")
-public class Board extends TimeEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Board {
 
     @Id
     @Column(name ="BOARD_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     public Long id;
 
     @Column
@@ -28,14 +31,11 @@ public class Board extends TimeEntity {
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Column
     private LocalDateTime updatedDate;
-
-    public Board() {
-    }
 
     @Builder(builderMethodName = "boardBuilder")
     public Board(String title, String content, BoardType boardType, LocalDateTime updatedDate) {

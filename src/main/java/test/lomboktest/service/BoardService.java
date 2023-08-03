@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import test.lomboktest.controller.BoardForm;
+import test.lomboktest.controller.dto.BoardForm;
 import test.lomboktest.entities.Board;
 import test.lomboktest.repository.BoardRepository;
 
@@ -41,6 +41,7 @@ public class BoardService {
         return id;
     }
 
+    @Transactional(readOnly = true)
     public Page<Board> findBoardList(Pageable pageable) {
         pageable = PageRequest.of(
                 pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber()-1,
@@ -48,6 +49,7 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Board findById(Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid board id= " + id ));

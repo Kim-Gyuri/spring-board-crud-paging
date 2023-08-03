@@ -1,4 +1,4 @@
-package test.lomboktest.controller;
+package test.lomboktest.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;

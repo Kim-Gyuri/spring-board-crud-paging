@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Board Form</title>
+    <title>커뮤니티 메인페이지</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -24,7 +24,7 @@
         <h1>게시글 목록</h1>
     </div>
     <div class="pull-right" style="width:100px;margin:10px 0;">
-        <a href="/add" class="btn btn-primary btn-block">등록</a>
+        <a href="/board/add" class="btn btn-primary btn-block">등록</a>
     </div>
     <br/><br/><br/>
 
@@ -61,13 +61,13 @@
         </li>
 
         <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}+1) ? 'active'">
-            <a th:href="@{/index(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>
+            <a th:href="@{/board/home(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>
         </li>
 
         <li th:style="${boardList.last} ? 'display:none'">
-            <a th:href="@{/index(page=${boardList.number}+2)}">&rsaquo;</a>
+            <a th:href="@{/board/home(page=${boardList.number}+2)}">&rsaquo;</a>
         </li>
-        <li><a aria-label="Next" th:href="@{/index(page=${boardList.totalPages})}">&raquo;</a></li>
+        <li><a aria-label="Next" th:href="@{/board/home(page=${boardList.totalPages})}">&raquo;</a></li>
     </ul>
 </nav>
 

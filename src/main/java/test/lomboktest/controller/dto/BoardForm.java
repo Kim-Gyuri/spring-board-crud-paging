@@ -1,4 +1,4 @@
-package test.lomboktest.controller;
+package test.lomboktest.controller.dto;
 
 import lombok.*;
 import test.lomboktest.entities.Board;
@@ -6,10 +6,7 @@ import test.lomboktest.entities.enums.BoardType;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class BoardForm {
     private Long id;
     private String title;
