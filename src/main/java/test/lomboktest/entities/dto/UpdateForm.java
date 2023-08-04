@@ -1,4 +1,4 @@
-package test.lomboktest.controller.dto;
+package test.lomboktest.entities.dto;
 
 import lombok.Builder;
 import lombok.Getter;

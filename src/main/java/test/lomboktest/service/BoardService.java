@@ -8,11 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import test.lomboktest.controller.dto.BoardForm;
 import test.lomboktest.entities.Board;
+import test.lomboktest.entities.dto.BoardForm;
 import test.lomboktest.repository.BoardRepository;
+import test.lomboktest.web.dto.MainPostDto;
+import test.lomboktest.web.dto.CreatePostRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,8 +27,12 @@ public class BoardService {
 
     @Transactional
     public Long save(BoardForm boardForm) {
-
         return boardRepository.save(boardForm.toEntity()).getId();
+    }
+
+    @Transactional
+    public Long save(CreatePostRequest request) {
+        return boardRepository.save(request.toEntity()).getId();
     }
 
     @Transactional
@@ -41,12 +49,20 @@ public class BoardService {
         return id;
     }
 
+    // 메인페이지에서 (1~n) 페이징으로 리스트 보기
     @Transactional(readOnly = true)
     public Page<Board> findBoardList(Pageable pageable) {
         pageable = PageRequest.of(
                 pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber()-1,
                 pageable.getPageSize());
         return boardRepository.findAll(pageable);
+    }
+    @Transactional(readOnly = true)
+    public List<MainPostDto> findBoardList() {
+        List<MainPostDto> collect = boardRepository.findAll().stream()
+                .map(o -> new MainPostDto(o.getId(), o.getTitle(), o.getContent(), o.getBoardType()))
+                .collect(Collectors.toList());
+        return collect;
     }
 
     @Transactional(readOnly = true)
@@ -56,4 +72,8 @@ public class BoardService {
         return board;
     }
 
+    @Transactional(readOnly = true)
+    public List<MainPostDto> findByBoardType(String type) {
+        return boardRepository.sortByBoardType(type);
+    }
 }

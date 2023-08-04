@@ -1,6 +1,7 @@
-package test.lomboktest.controller.dto;
+package test.lomboktest.entities.dto;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 import test.lomboktest.entities.Board;
 import test.lomboktest.entities.enums.BoardType;
 
@@ -24,6 +25,8 @@ public class BoardForm {
         return board;
     }
 
+
+    // test 할 때 사용하려고 만들었다.
     @Builder
     public BoardForm(Long id, String title, String content, BoardType boardType, LocalDateTime updatedDate) {
         this.id = id;
@@ -32,4 +35,5 @@ public class BoardForm {
         this.boardType = boardType;
         this.updatedDate = updatedDate;
     }
+
 }

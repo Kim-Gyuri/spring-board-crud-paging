@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Board {
 
     @Id
-    @Column(name ="BOARD_ID")
+    @Column(name ="board_id")
     @GeneratedValue
     public Long id;
 
@@ -37,6 +37,13 @@ public class Board {
     @Column
     private LocalDateTime updatedDate;
 
+    public void update(String title, String content, LocalDateTime updatedDate) {
+        this.title = title;
+        this.content = content;
+        this.updatedDate = updatedDate;
+    }
+
+    // Init 넣을 때 쓰기 위해서
     @Builder(builderMethodName = "boardBuilder")
     public Board(String title, String content, BoardType boardType, LocalDateTime updatedDate) {
         this.title = title;
@@ -45,12 +52,7 @@ public class Board {
         this.updatedDate = updatedDate;
     }
 
-    public void update(String title, String content, LocalDateTime updatedDate) {
-        this.title = title;
-        this.content = content;
-        this.updatedDate = updatedDate;
-    }
-
+    /*
     public Board toEntity() {
         return Board.boardBuilder()
                 .title(title)
@@ -59,6 +61,7 @@ public class Board {
                 .updatedDate(updatedDate)
                 .build();
     }
+     */
 
     @Override
     public String toString() {

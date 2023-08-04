@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import test.lomboktest.controller.dto.BoardForm;
+import test.lomboktest.entities.dto.BoardForm;
 
 import java.time.LocalDateTime;
 

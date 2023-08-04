@@ -22,7 +22,9 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.initData();
+        initService.initData1();
+        initService.initData2();
+
     }
 
     @RequiredArgsConstructor
@@ -32,23 +34,20 @@ public class InitDb {
 
         private final EntityManager em;
 
-        public void initData() {
-            IntStream.rangeClosed(1, 154).forEach(i -> {
-                Board boardEntity = getBoard(i);
-
+        public void initData1() {
+            IntStream.rangeClosed(0, 154).forEach(i -> {
+                Board boardEntity = new Board("title" + i, "content" + i, BoardType.free, LocalDateTime.now());
                 em.persist(boardEntity);
-
             });
         }
-        private Board getBoard(int i) {
-            Board boardEntity =  Board.boardBuilder()
-                    .title("title" + i)
-                    .content("content" + i)
-                    .boardType(BoardType.free)
-                    .updatedDate(LocalDateTime.now())
-                    .build();
-            return boardEntity;
+        public void initData2() {
+            IntStream.rangeClosed(0, 50).forEach(i -> {
+                Board boardEntity = new Board("other - title" + i, "content" + i, BoardType.notice, LocalDateTime.now());
+                em.persist(boardEntity);
+            });
         }
+
+
     }
 
 
