@@ -9,7 +9,6 @@ import test.lomboktest.entities.Board;
 import test.lomboktest.service.BoardService;
 import test.lomboktest.web.dto.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,9 +28,9 @@ public class BoardApiController {
     // 수정 API
     @PatchMapping("/{id}")
     public UpdatePostResponse update(@PathVariable("id") Long id, @RequestBody @Validated UpdatePostRequest request ) {
+        boardService.update(id, request);
         Board board = boardService.findById(id);
-        board.update(request.getTitle(), request.getContent(), LocalDateTime.now());
-        return new UpdatePostResponse(board.getId(), board.getTitle());
+        return new UpdatePostResponse(id, board.getTitle());
     }
 
 

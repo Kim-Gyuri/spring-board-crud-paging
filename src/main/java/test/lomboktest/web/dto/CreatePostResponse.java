@@ -1,12 +1,10 @@
 package test.lomboktest.web.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class CreatePostResponse {
     private Long id;
-
-    public CreatePostResponse(Long id) {
-        this.id = id;
-    }
 }

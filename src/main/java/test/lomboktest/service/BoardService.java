@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import test.lomboktest.entities.Board;
 import test.lomboktest.entities.dto.BoardForm;
 import test.lomboktest.repository.BoardRepository;
-import test.lomboktest.web.dto.MainPostDto;
 import test.lomboktest.web.dto.CreatePostRequest;
+import test.lomboktest.web.dto.MainPostDto;
+import test.lomboktest.web.dto.UpdatePostRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,11 +42,22 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         boardRepository.delete(board);
     }
+    @Transactional
+    public void delete() {
+      boardRepository.deleteAll();
+    }
 
     @Transactional
     public Long update(Long id, BoardForm boardForm) {
         Board board = findById(id);
         board.update(boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now());
+        return id;
+    }
+
+    @Transactional
+    public Long update(Long id, UpdatePostRequest request) {
+        Board board = findById(id);
+        board.update(request.getTitle(), request.getContent(), LocalDateTime.now());
         return id;
     }
 
