@@ -16,7 +16,6 @@ public enum BoardType {
         this.type = type;
     }
 
-
     public static BoardType enumOf(String type) {
         return Arrays.stream(BoardType.values())
                 .filter(t -> t.getType().equals(type))

@@ -1,9 +1,9 @@
 package test.lomboktest.repository;
 
-import test.lomboktest.web.dto.MainPostDto;
+import test.lomboktest.controller.dto.getPostResponse;
 
 import java.util.List;
 
 public interface BoardRepositoryCustom {
-    List<MainPostDto> sortByBoardType(String type);
+    List<getPostResponse> sortByBoardType(String type);
 }

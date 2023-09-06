@@ -52,17 +52,6 @@ public class Board {
         this.updatedDate = updatedDate;
     }
 
-    /*
-    public Board toEntity() {
-        return Board.boardBuilder()
-                .title(title)
-                .content(content)
-                .boardType(boardType)
-                .updatedDate(updatedDate)
-                .build();
-    }
-     */
-
     @Override
     public String toString() {
         return "Board{" + "id=" + id + ", title=" + title + ", content=" + content + ", boardType=" + boardType + '}';

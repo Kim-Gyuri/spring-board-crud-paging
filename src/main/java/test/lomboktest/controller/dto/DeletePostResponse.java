@@ -1,4 +1,4 @@
-package test.lomboktest.web.dto;
+package test.lomboktest.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

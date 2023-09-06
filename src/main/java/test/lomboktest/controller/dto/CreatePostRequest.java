@@ -1,4 +1,4 @@
-package test.lomboktest.web.dto;
+package test.lomboktest.controller.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,24 +10,24 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+
 public class CreatePostRequest {
     String title;
     String content;
-    String type;
-
+    String boardType;
 
     @Builder
-    public CreatePostRequest(String title, String content, String type) {
+    public CreatePostRequest(String title, String content, String boardType) {
         this.title = title;
         this.content = content;
-        this.type = type;
+        this.boardType = boardType;
     }
 
     public Board toEntity() {
         Board board = Board.boardBuilder()
                 .title(title)
                 .content(content)
-                .boardType(BoardType.enumOf(type))
+                .boardType(BoardType.enumOf(boardType))
                 .updatedDate(LocalDateTime.now())
                 .build();
         return board;

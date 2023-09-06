@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import test.lomboktest.entities.Board;
 import test.lomboktest.entities.enums.BoardType;
-import test.lomboktest.web.dto.MainPostDto;
+import test.lomboktest.controller.dto.getPostResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,7 +56,7 @@ public class BoardRepositoryTest {
         String type = "FREE";
 
         //when
-        List<MainPostDto> dtos = boardRepository.sortByBoardType(type);
+        List<getPostResponse> dtos = boardRepository.sortByBoardType(type);
 
         //then
         assertThat(dtos.get(0).getBoardType()).isEqualTo(BoardType.enumOf(type));

@@ -1,4 +1,4 @@
-package test.lomboktest;
+package test.lomboktest.utils;
 
 
 import lombok.RequiredArgsConstructor;
@@ -36,13 +36,27 @@ public class InitDb {
 
         public void initData1() {
             IntStream.rangeClosed(0, 154).forEach(i -> {
-                Board boardEntity = new Board("title" + i, "content" + i, BoardType.free, LocalDateTime.now());
+
+                Board boardEntity = Board.boardBuilder()
+                        .title("title" + i)
+                        .content("content" + i)
+                        .boardType(BoardType.free)
+                        .updatedDate(LocalDateTime.now())
+                        .build();
+
                 em.persist(boardEntity);
             });
         }
         public void initData2() {
             IntStream.rangeClosed(0, 50).forEach(i -> {
-                Board boardEntity = new Board("other - title" + i, "content" + i, BoardType.notice, LocalDateTime.now());
+
+                Board boardEntity = Board.boardBuilder()
+                        .title("other title" + i)
+                        .content("content" + i)
+                        .boardType(BoardType.free)
+                        .updatedDate(LocalDateTime.now())
+                        .build();
+
                 em.persist(boardEntity);
             });
         }

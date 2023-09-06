@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>커뮤니티 메인페이지</title>
+    <title>커뮤니티</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -24,7 +24,7 @@
         <h1>게시글 목록</h1>
     </div>
     <div class="pull-right" style="width:100px;margin:10px 0;">
-        <a href="/board/add" class="btn btn-primary btn-block">등록</a>
+        <a href="/posts/add" class="btn btn-primary btn-block">등록</a>
     </div>
     <br/><br/><br/>
 
@@ -41,8 +41,8 @@
             <tbody>
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.id}"></td>
-                <td><a th:href="@{/board/{id}(id=${board.id})}"  th:text="${board.title}"></a></td>
-                <td th:text="${board.boardType}"></td>
+                <td><a th:href="@{/posts/{id}(id=${board.id})}"  th:text="${board.title}"></a></td>
+                <td th:text="${board.boardType.value}"></td>
                 <td th:text="${board.updatedDate} ?
                             ${#temporals.format(board.updatedDate,'yyyy-MM-dd HH:mm')} : ${board.updatedDate}"></td>
 
@@ -55,19 +55,19 @@
 
 <nav aria-label="Page navigation" style="text-align:center;">
     <ul class="pagination" th:with="startNumber=${T(java.lang.Math).floor(boardList.number/10)}*10+1,endNumber=(${boardList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${boardList.totalPages}">
-        <li><a aria-label="Previous" href="/board/home?page=1">&laquo;</a></li>
+        <li><a aria-label="Previous" href="/?page=1">&laquo;</a></li>
         <li th:style="${boardList.first} ? 'display:none'">
-            <a th:href="@{/board/home(page=${boardList.number})}">&lsaquo;</a>
+            <a th:href="@{/(page=${boardList.number})}">&lsaquo;</a>
         </li>
 
         <li th:each="page :${#numbers.sequence(startNumber, endNumber)}" th:class="(${page} == ${boardList.number}+1) ? 'active'">
-            <a th:href="@{/board/home(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>
+            <a th:href="@{/(page=${page})}" th:text="${page}"><span class="sr-only"></span></a>
         </li>
 
         <li th:style="${boardList.last} ? 'display:none'">
-            <a th:href="@{/board/home(page=${boardList.number}+2)}">&rsaquo;</a>
+            <a th:href="@{/(page=${boardList.number}+2)}">&rsaquo;</a>
         </li>
-        <li><a aria-label="Next" th:href="@{/board/home(page=${boardList.totalPages})}">&raquo;</a></li>
+        <li><a aria-label="Next" th:href="@{/(page=${boardList.totalPages})}">&raquo;</a></li>
     </ul>
 </nav>
 

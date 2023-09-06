@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import test.lomboktest.entities.Board;
-import test.lomboktest.entities.dto.BoardForm;
 import test.lomboktest.repository.BoardRepository;
-import test.lomboktest.web.dto.CreatePostRequest;
-import test.lomboktest.web.dto.MainPostDto;
-import test.lomboktest.web.dto.UpdatePostRequest;
+import test.lomboktest.controller.dto.CreatePostRequest;
+import test.lomboktest.controller.dto.UpdatePostRequest;
+import test.lomboktest.controller.dto.getPostResponse;
+import test.lomboktest.utils.exception.post.NotFoundPostException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,11 +27,6 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long save(BoardForm boardForm) {
-        return boardRepository.save(boardForm.toEntity()).getId();
-    }
-
-    @Transactional
     public Long save(CreatePostRequest request) {
         return boardRepository.save(request.toEntity()).getId();
     }
@@ -39,19 +34,12 @@ public class BoardService {
     @Transactional
     public void delete(Long id) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new NotFoundPostException("해당 번호 "+ id+"는 존재하지 않습니다."));
         boardRepository.delete(board);
     }
     @Transactional
     public void delete() {
       boardRepository.deleteAll();
-    }
-
-    @Transactional
-    public Long update(Long id, BoardForm boardForm) {
-        Board board = findById(id);
-        board.update(boardForm.getTitle(), boardForm.getContent(), LocalDateTime.now());
-        return id;
     }
 
     @Transactional
@@ -69,23 +57,30 @@ public class BoardService {
                 pageable.getPageSize());
         return boardRepository.findAll(pageable);
     }
+
     @Transactional(readOnly = true)
-    public List<MainPostDto> findBoardList() {
-        List<MainPostDto> collect = boardRepository.findAll().stream()
-                .map(o -> new MainPostDto(o.getId(), o.getTitle(), o.getContent(), o.getBoardType()))
+    public List<getPostResponse> findBoardList() {
+        List<getPostResponse> collect = boardRepository.findAll().stream()
+                .map(o -> new getPostResponse(o.getId(), o.getTitle(), o.getContent(), o.getBoardType()))
                 .collect(Collectors.toList());
         return collect;
     }
 
     @Transactional(readOnly = true)
-    public Board findById(Long id) {
-        Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid board id= " + id ));
-        return board;
+    public getPostResponse getDetail(Long id) {
+        Board board = findById(id);
+        return new getPostResponse(board);
     }
 
     @Transactional(readOnly = true)
-    public List<MainPostDto> findByBoardType(String type) {
+    public Board findById(Long id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new NotFoundPostException("해당 번호 "+ id+"는 존재하지 않습니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public List<getPostResponse> findByBoardType(String type) {
         return boardRepository.sortByBoardType(type);
     }
+
 }

@@ -3,9 +3,9 @@ package test.lomboktest.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.util.StringUtils;
+import test.lomboktest.controller.dto.QgetPostResponse;
 import test.lomboktest.entities.enums.BoardType;
-import test.lomboktest.web.dto.MainPostDto;
-import test.lomboktest.web.dto.QMainPostDto;
+import test.lomboktest.controller.dto.getPostResponse;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -21,9 +21,9 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
     }
 
     @Override
-    public List<MainPostDto> sortByBoardType(String type) {
-        List<MainPostDto> content = queryFactory
-                .select(new QMainPostDto(
+    public List<getPostResponse> sortByBoardType(String type) {
+        List<getPostResponse> content = queryFactory
+                .select(new QgetPostResponse(
                         board.id.as("itemId"),
                         board.title,
                         board.content,
