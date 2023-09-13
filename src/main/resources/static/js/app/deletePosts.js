@@ -5,7 +5,6 @@ function deletePostSubmit(){
     $.ajax({
                 url : "/api/posts/" + id,
                 type : "delete",
-                enctype : 'multipart/form-data',
                 dataType : 'json',
                 contentType : false,
                 processData : false,

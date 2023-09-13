@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-
 public class CreatePostRequest {
     String title;
     String content;

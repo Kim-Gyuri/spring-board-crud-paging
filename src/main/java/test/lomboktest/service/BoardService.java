@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import test.lomboktest.controller.dto.UpdatePostResponse;
 import test.lomboktest.entities.Board;
 import test.lomboktest.repository.BoardRepository;
 import test.lomboktest.controller.dto.CreatePostRequest;
@@ -37,16 +38,18 @@ public class BoardService {
                 .orElseThrow(() -> new NotFoundPostException("해당 번호 "+ id+"는 존재하지 않습니다."));
         boardRepository.delete(board);
     }
+
     @Transactional
     public void delete() {
       boardRepository.deleteAll();
     }
 
     @Transactional
-    public Long update(Long id, UpdatePostRequest request) {
+    public UpdatePostResponse update(Long id, UpdatePostRequest request) {
         Board board = findById(id);
+        log.info("update before={}", board.toString());
         board.update(request.getTitle(), request.getContent(), LocalDateTime.now());
-        return id;
+        return new UpdatePostResponse(board);
     }
 
     // 메인페이지에서 (1~n) 페이징으로 리스트 보기
@@ -75,7 +78,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public Board findById(Long id) {
         return boardRepository.findById(id)
-                .orElseThrow(() -> new NotFoundPostException("해당 번호 "+ id+"는 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundPostException("해당 번호는 존재하지 않습니다."));
     }
 
     @Transactional(readOnly = true)

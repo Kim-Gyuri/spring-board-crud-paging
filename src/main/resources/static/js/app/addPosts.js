@@ -14,7 +14,6 @@ function addPostSubmit(){
     $.ajax({
                 url : "/api/posts",
                 type : "post",
-                enctype : 'multipart/form-data',
                 data : formData,
                 dataType : 'json',
                 contentType : false,

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import test.lomboktest.controller.dto.*;
-import test.lomboktest.entities.Board;
 import test.lomboktest.service.BoardService;
 
 import java.util.List;
@@ -25,16 +24,14 @@ public class BoardsApiController {
     public CreatePostResponse save(@RequestPart(value = "createDto") CreatePostRequest requestDto) {
         log.info("dto postType={}", requestDto.getBoardType());
         Long id = boardService.save(requestDto);
+
         return new CreatePostResponse(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
-    public UpdatePostResponse update(Long id, @Validated @RequestPart("updateDto") UpdatePostRequest requestDto) {
-        boardService.update(id, requestDto);
-
-        Board board = boardService.findById(id);
-        return new UpdatePostResponse(id, board.getTitle());
+    public UpdatePostResponse update(@PathVariable("id") Long id, @Validated @RequestPart("updateDto") UpdatePostRequest requestDto) {
+        return boardService.update(id, requestDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -57,7 +54,7 @@ public class BoardsApiController {
     }
 
     // 게시물 분류타입별 조회 API
-    @GetMapping("/category")
+    @GetMapping("/type")
     public List<getPostResponse> findByBoardType(@RequestParam String type) {
         return boardService.findByBoardType(type);
     }

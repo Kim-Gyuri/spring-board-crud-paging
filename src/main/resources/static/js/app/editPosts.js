@@ -14,7 +14,6 @@ function updatePostSubmit(){
     $.ajax({
                 url : "/api/posts/" + id,
                 type : "patch",
-                enctype : 'multipart/form-data',
                 data : formData,
                 dataType : 'json',
                 contentType : false,

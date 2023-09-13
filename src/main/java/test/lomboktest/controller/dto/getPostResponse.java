@@ -19,6 +19,7 @@ public class getPostResponse {
     }
 
     public getPostResponse(Board board) {
+        this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.boardType = board.getBoardType();

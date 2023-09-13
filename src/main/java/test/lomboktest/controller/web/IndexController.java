@@ -26,7 +26,7 @@ public class IndexController {
     }
 
     @GetMapping("/posts/add")
-    public String postSaveForm(Model model) {
+    public String postSaveForm() {
         return "posts-save";
     }
 
@@ -38,7 +38,7 @@ public class IndexController {
     }
 
     @GetMapping("/posts/{id}")
-    public String detail(@PathVariable Long id, Model model) {
+    public String detail(@PathVariable("id") Long id, Model model) {
         Board board = boardService.findById(id);
         model.addAttribute("board", board);
         return "posts-detail";
